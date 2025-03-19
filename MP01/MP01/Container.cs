@@ -12,11 +12,34 @@ public class Container
     private int depth = 605;            //in centimeters
     private string serialNumber;
     private ContainerType type;
+    private int delay;
 
-    public Container(string serialNumber, ContainerType type)
+    public Container(ContainerType type)
     {
-        this.serialNumber = "CON-{type}-{main}";
+        serialNumber = $"CON-{type}-{mainId++}";
         this.type = type;
         id = mainId++;
+    }
+
+    public void loadContainer(int load)
+    {
+        try
+        {
+            if (emptyWeight + load > maxWeight)
+            {
+                throw new OverfillException("Load is too heavy.");
+            }
+        }
+        catch (OverfillException e)
+        {
+            Console.WriteLine($"Weight exceeds max by: {emptyWeight + load - maxWeight}");
+            Console.WriteLine("OverfillException handled." , e);
+        }
+        cargoWeight = load;
+    }
+
+    public override string ToString()
+    {
+        return $"{nameof(serialNumber)}: {serialNumber}, {nameof(type)}: {type}, {nameof(cargoWeight)}: {cargoWeight})";
     }
 }
