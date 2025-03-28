@@ -1,45 +1,45 @@
 ﻿namespace MP01;
 
-public class Container
+public abstract class Container
 {
     private static Dictionary<string, Container> containers = new Dictionary<string, Container>();
-    private static int mainId = 0;
-    private int id;
-    private int cargoWeight;            //in kilograms
-    private int emptyWeight = 2_000;    //in kilograms
-    private int maxWeight = 24_000;     //in kilograms
-    private int height = 243;           //in centimeters
-    private int depth = 605;            //in centimeters
-    private string serialNumber;
-    private ContainerType type;
-    private int delay;
+    private static int _mainId = 0;
+    private int _id;
+    private int _cargoWeight;            //in kilograms
+    private int _emptyWeight = 2_000;    //in kilograms
+    private int _maxWeight = 24_000;     //in kilograms
+    private int _height = 243;           //in centimeters
+    private int _depth = 605;            //in centimeters
+    private string _serialNumber;
+    private ContainerType _type;
+    private int _delay;
 
-    public Container(ContainerType type)
+    protected Container(ContainerType type)
     {
-        serialNumber = $"CON-{type}-{mainId++}";
-        this.type = type;
-        id = mainId++;
+        _type = type;
+        _serialNumber = $"CON-{_type}-{_mainId++}";
+        _id = _mainId++;
     }
 
-    public void loadContainer(int load)
+    public void LoadContainer(int load)
     {
         try
         {
-            if (emptyWeight + load > maxWeight)
+            if (_emptyWeight + load > _maxWeight)
             {
                 throw new OverfillException("Load is too heavy.");
             }
         }
         catch (OverfillException e)
         {
-            Console.WriteLine($"Weight exceeds max by: {emptyWeight + load - maxWeight}");
+            Console.WriteLine($"Weight exceeds max by: {_emptyWeight + load - _maxWeight}");
             Console.WriteLine("OverfillException handled." , e);
         }
-        cargoWeight = load;
+        _cargoWeight = load;
     }
 
     public override string ToString()
     {
-        return $"{nameof(serialNumber)}: {serialNumber}, {nameof(type)}: {type}, {nameof(cargoWeight)}: {cargoWeight})";
+        return $"{nameof(_serialNumber)}: {_serialNumber}, {nameof(_type)}: {_type}, {nameof(_cargoWeight)}: {_cargoWeight})";
     }
 }
