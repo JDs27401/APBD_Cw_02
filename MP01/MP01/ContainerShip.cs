@@ -41,6 +41,11 @@ public class ContainerShip {
         second.AddContainer(_containers[containerName]);
         RemoveContainer(containerName);
     }
+
+    public void SwitchContainer(string remove, Container add) {
+        RemoveContainer(remove);
+        AddContainer(add);
+    }
     
     private void AddContainer(Container container) {
         if (_containersWeight + (container.GetEmptyWeight() + container.GetCargoWeight())/1000 > _maxContainersWeight) {
